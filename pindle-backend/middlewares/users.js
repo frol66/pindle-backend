@@ -29,10 +29,23 @@ const createUser = async (req, res, next) => {
     catch {
         res.status(404).send({message: "Error creating user"});
     }
-}
+};
+
+
+const deleteUser = async (req, res, next) => {
+    console.log("POST /users");
+    try {
+        req.user = await users.findByIdAndDelete(req.params.id);
+        next();
+    }
+    catch {
+        res.status(404).send({message: "Error deleting user"});
+    }
+};
 
 module.exports = { 
     findAllUsers, 
     findUserById,
-    createUser
+    createUser,
+    deleteUser,
 };

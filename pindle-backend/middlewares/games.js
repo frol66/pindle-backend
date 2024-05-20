@@ -11,7 +11,6 @@ const findAllGames = async (req, res, next) => {
 const createGame = async (req, res, next) => {
     console.log("POST /games");
     try {
-        console.log(req.body);
         req.game = await games.create(req.body);
         next();
     }
@@ -20,7 +19,20 @@ const createGame = async (req, res, next) => {
     }
 };
 
+const deleteGame = async (req, res, next) => {
+    console.log("POST /games");
+    try {
+        req.game = await games.findByIdAndDelete(req.params.id);
+        next();
+    }
+    catch {
+        res.status(404).send({message: "Error deleting game"});
+    }
+};
+
+
 module.exports = {
     findAllGames,
     createGame,
+    deleteGame,
 };
