@@ -1,10 +1,11 @@
 const games = require('../models/game');
 
+
 const findAllGames = async (req, res, next) => {
     req.gamesArray = await games
         .find({})
         .populate("categories")
-        .populate("users");
+        .populate({path: "users", select: "-password"});
     next();
 };
 
@@ -61,47 +62,14 @@ const checkEmptyTitle = async (req,res,next) => {
         next();
     }
 };
-/*
-const checkEmptyDescription = async (req,res,next) => {
-    if(!req.body.description) {
-        res.status(400).send({message: "Введите описание игры"});
-    }
-    else {
-        next();
-    }
-};
 
-const checkEmptyImage = async (req,res,next) => {
-    if(!req.body.image) {
-        res.status(400).send({message: "Введите картинку для игры"});
+const checkIsVoteRequest = async (req, res, next) => {
+    // Если в запросе присылают только поле users
+    if (Object.keys(req.body).length === 1 && req.body.users) {
+    req.isVoteRequest = true;
     }
-    else {
-        next();
-    }
-};
-
-const checkEmptyLink = async (req,res,next) => {
-    if(!req.body.link) {
-        res.status(400).send({message: "Введите ссылку для игры"});
-    }
-    else {
-        next();
-    }
-};
-
-const checkIsGameExists = async (req, res, next) => {
-    const isInArray = req.gamesArray.find((game) => {
-        return req.body.title === game.title;
-    });
-    if (isInArray) {
-        res.setHeader("Content-Type", "application/json");
-        res.status(400).send(JSON.stringify({ message: "Игра с таким названием уже существует" }));
-    } else {
-        next();
-    }
-};
-*/
-
+next();
+}; 
 
 module.exports = {
     findAllGames,
@@ -110,10 +78,5 @@ module.exports = {
     findGameById,
     updateGame,
     checkEmptyTitle,
-    /*
-    checkEmptyDescription,
-    checkEmptyImage,
-    checkEmptyLink,
-    checkIsGameExists,
-    */
+    checkIsVoteRequest,
 };

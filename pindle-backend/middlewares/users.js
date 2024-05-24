@@ -1,14 +1,29 @@
 const users = require('../models/user');
+const bcrypt = require("bcryptjs");
+
+const hashPassword = async (req, res, next) => {
+    try {
+        const salt = await bcrypt.getSalt(10);
+        const hash = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hash;
+        next();
+    }
+    catch(e) {
+        res.status(400).send({message: "Ошибка хеширования пароля"});
+    }
+}
 
 const findAllUsers = async (req, res, next) => {
-    req.usersArray = await users.find({});
+    //req.usersArray = await users.find({});
+    req.usersArray = await users.find({}, { password: 0 });
     next();
 };
 
 const findUserById = async (req, res, next) => {
     console.log("GET /users/:id");
     try {
-        req.user = await users.findById(req.params.id);
+        //req.user = await users.findById(req.params.id);
+        req.user = await users.findById(req.params.id, { password: 0 });
         next();
     }
     catch(e) {
@@ -52,7 +67,7 @@ const updateUser = async (req, res, next) => {
         res.status(400).send({message: "User not updated"});
     }
 };
-/*
+
 const checkEmptyNameAndEmailAndPassword = async (req, res, next) => {
     if (!req.body.username || !req.body.email || !req.body.password) {
         res.setHeader("Content-Type", "application/json");
@@ -96,17 +111,16 @@ const checkIfUsersAreSafe = async (req, res, next) => {
         res.status(400).send(JSON.stringify({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" }));
     }
 };
-*/
+
 module.exports = { 
     findAllUsers, 
     findUserById,
     createUser,
     deleteUser,
     updateUser,
-    /*
     checkEmptyNameAndEmailAndPassword,
     checkEmptyNameAndEmail,
     checkIsUserExists,
     checkIfUsersAreSafe,
-    */
+    hashPassword,
 };

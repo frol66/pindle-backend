@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const userModel = require('./user');
 const categoryModel = require('./categories');
-
+const bcrypt = require("bcryptjs");
 
 const gameSchema = new mongoose.Schema({
     title: {
@@ -34,6 +34,22 @@ const gameSchema = new mongoose.Schema({
     }],
 });
 
-const game = mongoose.model('game', gameSchema);
+gameSchema.statics.findGameByCategory = function(category) {
+    return this.find({}) // Выполним поиск всех игр
+        .populate({
+        path: "categories",
+        match: { name: category } 
+        })
+        .populate({
+        path: "users",
+        select: "-password"
+        })
+        .then(games => {
+          // Отфильтруем по наличию искомой категории 
+        return games.filter(game => game.categories.length > 0);
+    });
+}; 
 
-module.exports = game;
+const games = mongoose.model('game', gameSchema);
+
+module.exports = games;
