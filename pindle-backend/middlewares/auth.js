@@ -1,4 +1,4 @@
-const users = require("../models/user");
+const user = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 async function checkAuth(req, res, next) {
@@ -13,7 +13,7 @@ async function checkAuth(req, res, next) {
   try {
     const token = Authorization.replace("Bearer ", "");
     const operatorId = jwt.verify(token, "some-secret-key")["_id"];
-    req.operator = await users.findById(operatorId);
+    req.operator = await user.findById(operatorId);
   } catch (err) {
     console.log(err);
     res.status(401).send({ message: "Необходима авторизация" });
