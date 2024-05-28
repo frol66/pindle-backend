@@ -1,4 +1,4 @@
-Ссылка на репозиторий с фронтендом: https://github.com/frol66/pindle-fronted
+Ссылка на репозиторий с фронтендом: https://github.com/frol66/pindle-fronted/tree/last-review
 
 Ссылка на домен фронтенда: https://pindlefrontedwow.nomoredomainswork.ru/
 
