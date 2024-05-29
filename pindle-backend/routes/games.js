@@ -17,7 +17,7 @@ gamesRouter.get("/games/:id", findGameById, sendGameById);
 gamesRouter.delete("/games/:id", deleteGame, sendGameDeleted);
 
 gamesRouter.put("/games/:id", 
-//findGameById,
+findGameById,
 //checkIsVoteRequest,
 checkEmptyTitle,
 updateGame, 
