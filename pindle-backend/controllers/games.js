@@ -20,7 +20,7 @@ const sendGameUpdated = (req, res) => {
 
 const sendGameById = (req, res) => {
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(req.game));
+    res.end(JSON.stringify(req.gamesArray));
 };
 
 
