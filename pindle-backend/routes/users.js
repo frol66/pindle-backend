@@ -7,6 +7,7 @@ const { checkAuth } = require("../middlewares/auth");
 usersRouter.get("/users", findAllUsers, sendAllUsers);
 
 usersRouter.post("/users", 
+findAllUsers,
 checkIsUserExists,
 checkEmptyNameAndEmailAndPassword,
 checkAuth,
