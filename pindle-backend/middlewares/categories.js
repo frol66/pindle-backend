@@ -52,7 +52,7 @@ const updateCategory = async (req, res, next) => {
 
 
 
-/*const checkEmptyName = async (req, res, next) => {
+const checkEmptyName = async (req, res, next) => {
     if (!req.body.name) {
         res.setHeader("Content-Type", "application/json");
         res.status(400).send(JSON.stringify({ message: "Введите название категории" }));
@@ -81,16 +81,14 @@ const checkIfCategoriesAvaliable = async (req, res, next) => {
         next();
     }
 };
-*/
+
 module.exports = {
     findAllCategories,
     findCategoryById,
     createCategory,
     deleteCategory,
     updateCategory,
-    /*
     checkEmptyName,
     checkIsCategoryExists,
     checkIfCategoriesAvaliable,
-    */
 }
